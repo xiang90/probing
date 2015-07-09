@@ -1,4 +1,4 @@
-package prober
+package probing
 
 import (
 	"sync"
