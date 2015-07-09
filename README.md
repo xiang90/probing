@@ -24,7 +24,9 @@ Now we can start to probe the endpoint.
 
 	time.Sleep(13 * time.Millisecond)
 	status, err := p.Status(id)
-    fmt.Printf("Total Probing: %d, Total Loss: %d, Estimated RTT: %v, Estimated Clock Difference: %v", status.Total(), status.Loss(), status.SRTT(), status.ClockDiff())
+ 	fmt.Printf("Total Probing: %d, Total Loss: %d, Estimated RTT: %v, Estimated Clock Difference: %v\n",
+		status.Total(), status.Loss(), status.SRTT(), status.ClockDiff())
+	// Total Probing: 2, Total Loss: 0, Estimated RTT: 320.771µs, Estimated Clock Difference: -35.869µs
 ```
 
 ### TODOs:
