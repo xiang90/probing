@@ -22,7 +22,7 @@ Now we can start to probe the endpoint.
     url := "http://example.com:12345/health"
     p.AddHTTP(id, probingInterval, url)
 
-	time.Sleep(13 * time.Millisecond)
+	time.Sleep(13 * time.Second)
 	status, err := p.Status(id)
  	fmt.Printf("Total Probing: %d, Total Loss: %d, Estimated RTT: %v, Estimated Clock Difference: %v\n",
 		status.Total(), status.Loss(), status.SRTT(), status.ClockDiff())
