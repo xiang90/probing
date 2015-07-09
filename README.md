@@ -1,6 +1,6 @@
-### Getting Started
+## Getting Started
 
-## Install the handler
+### Install the handler
 
 We first need to serve the probing HTTP handler.
 
@@ -12,7 +12,7 @@ We first need to serve the probing HTTP handler.
 	}
 ```
 
-## Start to probe
+### Start to probe
 
 Now we can start to probe the endpoint.
 
@@ -27,7 +27,7 @@ Now we can start to probe the endpoint.
     fmt.Printf("Total Probing: %d, Total Loss: %d, Estimated RTT: %v, Estimated Clock Difference: %v", status.Total(), status.Loss(), status.SRTT(), status.ClockDiff())
 ```
 
-## TODOs:
+### TODOs:
 
 - TCP probing
 - UDP probing
