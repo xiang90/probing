@@ -14,7 +14,7 @@ var (
 )
 
 type Prober interface {
-	AddHTTP(id string, probingInterval time.Duration, endpoint string) error
+	AddHTTP(id string, probingInterval time.Duration, endpoints []string) error
 	Remove(id string) error
 	Reset(id string) error
 	Status(id string) (Status, error)
@@ -29,7 +29,7 @@ func NewProber() Prober {
 	return &prober{targets: make(map[string]*status)}
 }
 
-func (p *prober) AddHTTP(id string, probingInterval time.Duration, endpoint string) error {
+func (p *prober) AddHTTP(id string, probingInterval time.Duration, endpoints []string) error {
 	p.mu.Lock()
 	defer p.mu.Unlock()
 	if _, ok := p.targets[id]; ok {
@@ -42,14 +42,15 @@ func (p *prober) AddHTTP(id string, probingInterval time.Duration, endpoint stri
 	ticker := time.NewTicker(probingInterval)
 
 	go func() {
+		pinned := 0
 		for {
 			select {
 			case <-ticker.C:
 				start := time.Now()
-				resp, err := http.Get(endpoint)
-
+				resp, err := http.Get(endpoints[pinned])
 				if err != nil {
 					s.recordFailure()
+					pinned = (pinned + 1) % len(endpoints)
 					continue
 				}
 
@@ -59,6 +60,7 @@ func (p *prober) AddHTTP(id string, probingInterval time.Duration, endpoint stri
 				resp.Body.Close()
 				if err != nil || !hh.OK {
 					s.recordFailure()
+					pinned = (pinned + 1) % len(endpoints)
 					continue
 				}
 

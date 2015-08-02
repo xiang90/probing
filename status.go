@@ -18,6 +18,7 @@ type Status interface {
 	SRTT() time.Duration
 	// Estimated clock difference
 	ClockDiff() time.Duration
+	StopNotify() <-chan struct{}
 }
 
 type status struct {
@@ -59,6 +60,10 @@ func (s *status) ClockDiff() time.Duration {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	return s.clockdiff
+}
+
+func (s *status) StopNotify() <-chan struct{} {
+	return s.stopC
 }
 
 func (s *status) record(rtt time.Duration, when time.Time) {

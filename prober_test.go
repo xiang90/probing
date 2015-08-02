@@ -14,7 +14,7 @@ func TestProbe(t *testing.T) {
 	s := httptest.NewServer(NewHandler())
 
 	p := NewProber()
-	p.AddHTTP(testID, time.Millisecond, s.URL)
+	p.AddHTTP(testID, time.Millisecond, []string{s.URL})
 	defer p.Remove(testID)
 
 	time.Sleep(100 * time.Millisecond)
@@ -49,7 +49,7 @@ func TestProbeReset(t *testing.T) {
 	defer s.Close()
 
 	p := NewProber()
-	p.AddHTTP(testID, time.Millisecond, s.URL)
+	p.AddHTTP(testID, time.Millisecond, []string{s.URL})
 	defer p.Remove(testID)
 
 	time.Sleep(100 * time.Millisecond)
@@ -80,7 +80,7 @@ func TestProbeRemove(t *testing.T) {
 	defer s.Close()
 
 	p := NewProber()
-	p.AddHTTP(testID, time.Millisecond, s.URL)
+	p.AddHTTP(testID, time.Millisecond, []string{s.URL})
 
 	p.Remove(testID)
 	_, err := p.Status(testID)
